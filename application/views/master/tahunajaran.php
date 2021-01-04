@@ -37,11 +37,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="card-header">
                   <div class="row">
                   <div class="col-md-6">
-                    <h3 class="card-title">Daftar Guru</h3>
+                    <h3 class="card-title">Daftar Tahun ajaran</h3>
                   </div>
                   <div class="col-md-6 text-right">
-                    <a href="<?php echo base_url('master/guru/tambah') ?>" class="btn btn-outline-primary btn-sm"><i class="fa fa-plus"></i> Tambah guru</a>
-                    <a href="<?php echo base_url('master/guru/import') ?>" class="btn btn-outline-danger btn-sm"><i class="fa fa-arrow-down"></i> Import Guru</a>
+                    <a href="<?php echo base_url('master/tahun/tambah') ?>" class="btn btn-outline-primary btn-sm"><i class="fa fa-plus"></i> Ajaran Baru</a>
                   </div>
                   </div>
                 </div>
@@ -50,34 +49,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <table class="table table-striped">
                     <thead>
                         <tr>
-                          <th style="width: 10px">#</th>
-                          <th>Nip</th>
-                          <th>Nama</th>
-                          <th>Tempat Tanggal Lahir</th>
+                          <th>Tahun</th>
                           <th>Status</th>
                           <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                       <?php
-                        $no = 1;
-                        if(!empty($guru)){
-                        foreach($guru as $d){
+                        if(!empty($tahun)){
+                        foreach($tahun as $d){
                       ?>
                         <tr>
-                          <td><?=$no++?></td>
-                          <td><?=$d->nip?></td>
-                          <td><?=$d->nama?></td>
-                          <td><?=$d->tempat_lahir?>, <?=$d->tanggal_lahir?></td>
+                          <td><?=$d->tahun?></td>
                           <td><?=$d->status?></td>
                           <td>
-                          <a href="<?php echo site_url('master/guru/ubah/'.$d->id_pegawai) ?>" class="btn btn-sm text-success"><i class="fa fa-pencil-alt"></i> Ubah</a>
-                            <a onclick="deleteConfirm('<?php echo site_url('master/guru/hapus/'.$d->id_pegawai) ?>')" href="#!" class="btn btn-sm text-danger"><i class="fas fa-trash"></i> Hapus</a>
+                            <a href="" class="btn btn-outline-success btn-sm"><i class="fa fa-pencil-alt"></i></a>
+                            <a onclick="deleteConfirm('<?php echo site_url('master/tahun/hapus/'.$d->id_tahun) ?>')" href="#!" class="btn btn-sm text-danger"><i class="fas fa-trash"></i> Hapus</a>
                           </td>
                         </tr>
                       <?php } }else{?>
                         <tr>
-                          <td colspan="6">Data tidak ada!</td>
+                          <td colspan="3">Data tidak ada!</td>
                         </tr>
                       <?php } ?>
                     </tbody>
@@ -89,28 +81,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
       </div>
     </section>
-    <!-- /.content -->
     <?php $this->load->view("_bagian/konfirmasihapus.php") ?>
   </div>
-  <!-- /.content-wrapper -->
   <footer class="main-footer">
     <?php $this->load->view("_bagian/kaki.php") ?>
   </footer>
 
-  <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
   </aside>
-  <!-- /.control-sidebar -->
 </div>
-<!-- ./wrapper -->
 
 <?php $this->load->view("_bagian/js.php") ?>
-<script>
-function deleteConfirm(url){
-	$('#btn-delete').attr('href', url);
-	$('#deleteModal').modal();
-}
-</script>
+<?php $this->load->view("_bagian/jshapus.php") ?>
+
 </body>
 </html>

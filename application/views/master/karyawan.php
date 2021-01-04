@@ -35,60 +35,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="col-md-12">
                 <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Striped Full Width Table</h3>
+                  <div class="row">
+                  <div class="col-md-6">
+                    <h3 class="card-title">Daftar Karyawan</h3>
+                  </div>
+                  <div class="col-md-6 text-right">
+                    <a href="<?php echo base_url('master/karyawan/tambah') ?>" class="btn btn-outline-primary btn-sm"><i class="fa fa-plus"></i> Tambah karyawan</a>
+                    <a href="<?php echo base_url('master/karyawan/import') ?>" class="btn btn-outline-danger btn-sm"><i class="fa fa-arrow-down"></i> Import karyawan</a>
+                  </div>
+                  </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body p-0">
                     <table class="table table-striped">
                     <thead>
                         <tr>
-                        <th style="width: 10px">#</th>
-                        <th>Task</th>
-                        <th>Progress</th>
-                        <th style="width: 40px">Label</th>
+                          <th style="width: 10px">#</th>
+                          <th>Nip</th>
+                          <th>Nama</th>
+                          <th>Tempat Tanggal Lahir</th>
+                          <th>Status</th>
+                          <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
+                    <?php
+                        $no = 1;
+                        if(!empty($karyawan)){
+                        foreach($karyawan as $d){
+                      ?>
                         <tr>
-                        <td>1.</td>
-                        <td>Update software</td>
-                        <td>
-                            <div class="progress progress-xs">
-                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                            </div>
-                        </td>
-                        <td><span class="badge bg-danger">55%</span></td>
+                          <td><?=$no++?></td>
+                          <td><?=$d->nip?></td>
+                          <td><?=$d->nama?></td>
+                          <td><?=$d->tempat_lahir?>, <?=$d->tanggal_lahir?></td>
+                          <td><?=$d->status?></td>
+                          <td>
+                            <a href="<?php echo site_url('master/karyawan/ubah/'.$d->id_pegawai) ?>" class="btn btn-sm text-success"><i class="fa fa-pencil-alt"></i> Ubah</a>
+                            <a onclick="deleteConfirm('<?php echo site_url('master/karyawan/hapus/'.$d->id_pegawai) ?>')" href="#!" class="btn btn-sm text-danger"><i class="fas fa-trash"></i> Hapus</a>
+                          </td>
                         </tr>
+                      <?php } }else{?>
                         <tr>
-                        <td>2.</td>
-                        <td>Clean database</td>
-                        <td>
-                            <div class="progress progress-xs">
-                            <div class="progress-bar bg-warning" style="width: 70%"></div>
-                            </div>
-                        </td>
-                        <td><span class="badge bg-warning">70%</span></td>
+                          <td colspan="6">Data tidak ada!</td>
                         </tr>
-                        <tr>
-                        <td>3.</td>
-                        <td>Cron job running</td>
-                        <td>
-                            <div class="progress progress-xs progress-striped active">
-                            <div class="progress-bar bg-primary" style="width: 30%"></div>
-                            </div>
-                        </td>
-                        <td><span class="badge bg-primary">30%</span></td>
-                        </tr>
-                        <tr>
-                        <td>4.</td>
-                        <td>Fix and squish bugs</td>
-                        <td>
-                            <div class="progress progress-xs progress-striped active">
-                            <div class="progress-bar bg-success" style="width: 90%"></div>
-                            </div>
-                        </td>
-                        <td><span class="badge bg-success">90%</span></td>
-                        </tr>
+                      <?php } ?>
                     </tbody>
                     </table>
                 </div>
@@ -99,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </div>
     </section>
     <!-- /.content -->
-    
+    <?php $this->load->view("_bagian/konfirmasihapus.php") ?>
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
@@ -115,5 +106,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- ./wrapper -->
 
 <?php $this->load->view("_bagian/js.php") ?>
+<script>
+function deleteConfirm(url){
+	$('#btn-delete').attr('href', url);
+	$('#deleteModal').modal();
+}
+</script>
 </body>
 </html>
