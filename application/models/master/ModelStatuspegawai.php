@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
 
         function delete($id){
-            return $this->db->delete($this->tabel, array("id_status_pegawai",$id));
+            return $this->db->delete($this->tabel, array("id_status_pegawai"=>$id));
         }
     }
     

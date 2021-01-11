@@ -33,6 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
+              <form method="post" action="<?php echo base_url("master/karyawan/prevdata"); ?>" enctype="multipart/form-data">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Import data karyawan</h3>
@@ -42,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <label for="exampleInputFile">File input</label>
                             <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="exampleInputFile">
+                                <input type="file" name="file" class="custom-file-input" id="exampleInputFile">
                                 <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                             </div>
                             <div class="input-group-append">
@@ -63,9 +64,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" name="preview" class="btn btn-primary">Simpan</button>
                     </div>
                 </div>
+              </form>
             </div>
         </div>
       </div>

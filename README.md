@@ -1,2 +1,0 @@
-# Titip
-Titip iya git

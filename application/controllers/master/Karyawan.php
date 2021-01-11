@@ -1,11 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Karyawan extends CI_Controller {
+	private $filename = "datakaryawan";
 
 	function __construct(){
 		parent::__construct();		
 		$this->load->model('master/ModelKaryawan');
 		$this->load->model('master/ModelStatuspegawai');
+		$this->load->model('ModelLogin');
+		if($this->ModelLogin->isNotLogin()) redirect(site_url('login'));
 	}
 
 	public function index()
@@ -64,8 +67,74 @@ class Karyawan extends CI_Controller {
 		}
 	}
 
-	public function import(){
+	public function form(){
 		$this->load->view('master/importkaryawan');
+	}
+
+	public function prevdata(){
+		$data = array(); // Buat variabel $data sebagai array
+    
+		if(isset($_POST['preview'])){ // Jika user menekan tombol Preview pada form
+			// lakukan upload file dengan memanggil function upload yang ada di SiswaModel.php
+			$upload = $this->ModelKaryawan->upload_file($this->filename);
+			
+			if($upload['result'] == "success"){ // Jika proses upload sukses
+				// Load plugin PHPExcel nya
+				include APPPATH.'third_party/PHPExcel/PHPExcel.php';
+				
+				$excelreader = new PHPExcel_Reader_Excel2007();
+				$loadexcel = $excelreader->load('fileupload/'.$this->filename.'.xlsx'); // Load file yang tadi diupload ke folder excel
+				$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
+				
+				// Masukan variabel $sheet ke dalam array data yang nantinya akan di kirim ke file form.php
+				// Variabel $sheet tersebut berisi data-data yang sudah diinput di dalam excel yang sudha di upload sebelumnya
+				$data['sheet'] = $sheet; 
+			}else{ // Jika proses upload gagal
+				$data['upload_error'] = $upload['error']; // Ambil pesan error uploadnya untuk dikirim ke file form dan ditampilkan
+			}
+		}
+		$this->load->view('previewdata/importkaryawan',$data);
+	}
+
+	public function import(){
+		include APPPATH.'third_party/PHPExcel/PHPExcel.php';
+		
+		$excelreader = new PHPExcel_Reader_Excel2007();
+		$loadexcel = $excelreader->load('fileupload/'.$this->filename.'.xlsx'); // Load file yang telah diupload ke folder excel
+		$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
+				
+		$numrow = 1;
+		foreach($sheet as $row){
+		  if($numrow > 1){
+			$nip = $row['A'];
+			$nik = $row['B'];
+			$nama = $row['C'];
+			$jk = $row['D'];
+			$agama = $row['E'];
+			$tempat = $row['F'];
+			$tanggal = $row['G'];
+			$tlp = $row['H'];
+			$email = $row['I'];
+			$alamat = $row['J'];
+			$nuptk = $row['K'];
+			$npwp = $row['L'];
+			$statusaktif = $row['M'];
+			$statuspegawai = $row['N'];
+			$tmt = $row['O'];
+			$status = "Karyawan";
+
+			$datauser = array('username'=> $nik, 'password'=> '123', 'level'=>'Karyawan');
+			$this->db->insert('user',$datauser);
+			$insert_id = $this->db->insert_id();
+
+			$data = array('nik'=>$nik, 'nip'=>$nip, 'nama'=>$nama, 'nuptk'=>$nuptk, 'npwp'=>$npwp, 'jenis_kelamin'=>$jk, 'tempat_lahir'=>$tempat,'tanggal_lahir'=>$tanggal,'agama'=>$agama,'id_status_pegawai'=>$statuspegawai,'status'=>$statusaktif,'alamat'=>$alamat,'no_hp'=>$tlp,'email'=>$email,'tmt'=>$tmt,'id_user'=>$insert_id, 'statuspegawai' => $status);
+			$this->db->insert('pegawai', $data);
+		  }
+		  
+		  $numrow++; // Tambah 1 setiap kali looping
+		}
+		
+		redirect("master/karyawan"); // Redirect ke halaman awal (ke controller siswa fungsi index)
 	}
     
 }

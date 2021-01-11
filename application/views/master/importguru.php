@@ -38,11 +38,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <h3 class="card-title">Import data</h3>
                     </div>
                     <div class="card-body">
+                    <form method="post" action="<?php echo base_url("master/guru/prevdata"); ?>" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="exampleInputFile">File input</label>
                             <div class="input-group">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="exampleInputFile">
+                                <input type="file" class="custom-file-input" name="file">
                                 <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                             </div>
                             <div class="input-group-append">
@@ -50,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                             </div>
                         </div>
+                        
 
                         <div class="alert alert-info">
                             <h5><i class="icon fas fa-info"></i> Info!</h5>
@@ -62,9 +64,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             - Aksi upload ini tidak bisa dibatalkan setelah diproses
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
+                      <div class="card-footer">
+                          <button type="submit" class="btn btn-primary" name="preview">Simpan</button>
+                      </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                   <div class="col-md-6 text-right">
                     <a href="<?php echo base_url('master/karyawan/tambah') ?>" class="btn btn-outline-primary btn-sm"><i class="fa fa-plus"></i> Tambah karyawan</a>
-                    <a href="<?php echo base_url('master/karyawan/import') ?>" class="btn btn-outline-danger btn-sm"><i class="fa fa-arrow-down"></i> Import karyawan</a>
+                    <a href="<?php echo base_url('master/karyawan/form') ?>" class="btn btn-outline-danger btn-sm"><i class="fa fa-arrow-down"></i> Import karyawan</a>
                   </div>
                   </div>
                 </div>
